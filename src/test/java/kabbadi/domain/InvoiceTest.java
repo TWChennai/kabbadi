@@ -45,6 +45,11 @@ public class InvoiceTest {
         assertThat(invoiceWithEmptyBondNumber().isBonded(), is(false));
     }
 
+    @Test
+    public  void should_calculate_duty_exempt() {
+        assertThat(invoiceWithDutyExemptAndAssessableValueInINR(2d, 3d).getDutyExempt(), equalTo(new BigDecimal(6)));
+    }
+
     private Invoice invoiceWithEmptyBondNumber() {
         Invoice invoice = new Invoice();
         invoice.setBondNumber("");
@@ -71,6 +76,13 @@ public class InvoiceTest {
 
         return invoice;
     }
-    
 
+
+    private Invoice invoiceWithDutyExemptAndAssessableValueInINR(Double dutyExempt, Double assessableValueInINR) {
+        Invoice invoice = new Invoice();
+        invoice.setAssessableValueInINR(new BigDecimal(assessableValueInINR));
+        invoice.setDutyExempt(new BigDecimal(dutyExempt));
+
+        return invoice;
+    }
 }

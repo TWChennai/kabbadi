@@ -46,6 +46,7 @@ public class Invoice {
     @Enumerated(EnumType.STRING)
     private ImportType importType;
 
+
     private String bondNumber;
     private Date dateOfArrival;
     private Date bondDate;
@@ -150,6 +151,10 @@ public class Invoice {
 
     public BigDecimal getAmountSTPIApproval() {
         return amountSTPIApproval == null ? new BigDecimal(0) : amountSTPIApproval;
+    }
+
+    public BigDecimal getDutyExempt() {
+      return (dutyExempt == null) ? new BigDecimal(0) : dutyExempt.multiply(assessableValueInINR);
     }
 
     public BigDecimal getCgApprovedInINR() {
