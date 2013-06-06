@@ -127,9 +127,14 @@
 
             <div class="span3">
                 <label for="assessableValueInINR">Assessable Value In INR</label>
-                <input name="assessableValueInINR" value="${invoice.assessableValueInINR!}"/>
+                <input name="assessableValueInINR" value="${invoice.assessableValueInINR!}" id='assessableValueInINR'/>
 
                 <div class='error_div' id='newInvoiceForm_assessableValueInINR_errorloc'></div>
+            </div>
+
+            <div class="span3">
+                <label for="percentageValue">percentage Value</label>
+                <input name="percentageValue" value="${invoice.getPercentageValue()}" id='percentageValue'/>
             </div>
         </div>
         <div class="row">
@@ -156,25 +161,19 @@
     </div>
     <div class="row">
         <div class="span3">
-            <label for="dutyExempt">Duty Exempt</label>
-            <input name="dutyExempt" value="${invoice.dutyExempt!}"/>
+            <label for="dutyExempt">Duty Exempt/Duty Forgone </label>
+            <input name="dutyExempt" value="${invoice.dutyExempt!}" id="dutyExempt" readonly='readonly'/>
 
             <div class='error_div' id='newInvoiceForm_dutyExempt_errorloc'></div>
         </div>
 
         <div class="span3">
             <label for="twentyFivePercentDF">25% DF</label>
-            <input name="twentyFivePercentDF" value="${invoice.twentyFivePercentDF!}"/>
+            <input name="twentyFivePercentDF" value="${invoice.twentyFivePercentDF!}" id="twentyFivePercentDF" readonly='readonly' />
 
             <div class='error_div' id='newInvoiceForm_twentyFivePercentDF_errorloc'></div>
         </div>
 
-        <div class="span3">
-            <label for="dutyForgone">Duty Foregone</label>
-            <input name="dutyForgone" value="${invoice.dutyForgone!}"/>
-
-            <div class='error_div' id='newInvoiceForm_dutyForgone_errorloc'></div>
-        </div>
     </div>
 
     <div class="row">

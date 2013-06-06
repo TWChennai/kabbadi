@@ -46,10 +46,14 @@ public class InvoiceTest {
     }
 
     @Test
-    public  void should_calculate_duty_exempt() {
-        assertThat(invoiceWithDutyExemptAndAssessableValueInINR(2d, 3d).getDutyExempt(), equalTo(new BigDecimal(6)));
+    public void should_give_the_percentage_value() {
+        assertThat(invoiceWithDutyExemptAndAssessableValueInINR(10d, 2d).getPercentageValue(), equalTo(new BigDecimal(5)));
     }
 
+    @Test
+    public void should_give_the_percentage_value_as_zero_if_assessable_value_is_zero() {
+        assertThat(invoiceWithDutyExemptAndAssessableValueInINR(10d, 0d).getPercentageValue(), equalTo(new BigDecimal(0)));
+    }
     private Invoice invoiceWithEmptyBondNumber() {
         Invoice invoice = new Invoice();
         invoice.setBondNumber("");

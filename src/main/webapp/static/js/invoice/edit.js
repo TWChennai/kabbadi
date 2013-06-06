@@ -26,8 +26,6 @@ kabbadi.invoice.edit = {
            return this.optional(element) || (/[0-9]{2}\/[0-9]{2}-[0-9]{2}$/).test(value);
         }, "eg. 41/11-12");
 
-
-
         $('#newInvoiceForm').validate({
             rules : {
                 bondNumber : { customBondNumber : true },
@@ -40,7 +38,7 @@ kabbadi.invoice.edit = {
                 invoiceNumber : { required : true },
                 "foreignValue.amount" : { number : true },
                 amountSTPIApproval : { number : true },
-                assessableValueInINR : { number : true },
+                assessableValueInINR : { required: true, number : true },
                 CIFValueInINR : { number : true },
                 cgApprovedInINR : { number : true },
                 dutyExempt : { number : true },
@@ -49,8 +47,10 @@ kabbadi.invoice.edit = {
                 quantity : { number : true },
                 openingPurchaseValueAsOnApril01 : { number : true },
                 additionsDuringTheYear : { number : true },
-                deletionsDuringTheYear : { number : true }
+                deletionsDuringTheYear : { number : true },
+                percentageValue : { required : true, number: true }
             },
+
             invalidHandler : function() {
                 $("#form_errors_msg").show();
             },
@@ -123,6 +123,16 @@ kabbadi.invoice.edit = {
         }
     },
 
+    fillOthers: function(evt) {
+        if ($('#newInvoiceForm').validate().element(this)) {
+            var assessableValueInINR = $('#assessableValueInINR').val() == "" ? 0 : $('#assessableValueInINR').val();
+            var percentageValue = $('#percentageValue').val() ==  "" ? 0 : $('#percentageValue').val();
+            var dutyExempt = assessableValueInINR * percentageValue;
+            $('#dutyExempt').val(dutyExempt);
+            $('#twentyFivePercentDF').val(dutyExempt * 0.25);
+        }
+    },
+
     removePreviousInvoice : function() {
         $("#previous_matched_bond_number").hide();
         $("#previous_bond_value").text(0);
@@ -137,6 +147,11 @@ kabbadi.invoice.edit = {
         $("#runningBalance").val(prevRunningBalance + CIFValueInINR - cgApprovedInINR);
     },
 
+    wireUpEvents : function() {
+        $('#assessableValueInINR').change(kabbadi.invoice.edit.fillOthers);
+        $('#percentageValue').change(kabbadi.invoice.edit.fillOthers);
+    },
+
 
     initialize : function(baseUrl) {
 
@@ -145,7 +160,7 @@ kabbadi.invoice.edit = {
             kabbadi.invoice.edit.editValidator();
             kabbadi.invoice.edit.fetchInvoiceNumber(baseUrl);
             kabbadi.invoice.edit.previousInvoiceNumber = $("input[name='invoiceNumber']").val();
-
+            kabbadi.invoice.edit.wireUpEvents();
             $.datepicker.setDefaults({
                 dateFormat: 'dd/mm/yy'
             });
@@ -154,7 +169,6 @@ kabbadi.invoice.edit = {
             $("input[name='bondNumber']").blur(kabbadi.invoice.edit.fetchPreviousRunningBalance);
             $("#location").change(kabbadi.invoice.edit.fetchPreviousRunningBalance);
             $("input[name='amountSTPIApproval'],input[name='cgApprovedInINR']").blur(kabbadi.invoice.edit.calculateCurrentRunningBalance);
-
         });
 
     }

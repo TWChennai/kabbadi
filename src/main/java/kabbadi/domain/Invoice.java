@@ -154,7 +154,7 @@ public class Invoice {
     }
 
     public BigDecimal getDutyExempt() {
-      return (dutyExempt == null) ? new BigDecimal(0) : dutyExempt.multiply(assessableValueInINR);
+      return (dutyExempt == null) ? new BigDecimal(0) : dutyExempt;
     }
 
     public BigDecimal getCgApprovedInINR() {
@@ -189,4 +189,11 @@ public class Invoice {
         return  new BigDecimal(0);
     }
 
+    public BigDecimal getAssessableValueInINR() {
+        return assessableValueInINR == null ? new BigDecimal(0) : assessableValueInINR;
+    }
+
+    public BigDecimal getPercentageValue() {
+        return getAssessableValueInINR().intValue() == 0  ? new BigDecimal(0) : getDutyExempt().divide(getAssessableValueInINR());
+    }
 }
