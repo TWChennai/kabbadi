@@ -32,12 +32,12 @@ kabbadi.invoice.edit = {
                 dateOfInvoice : { customDate : true },
                 dateOfCommissioning : { customDate : true },
                 bondDate : { customDate : true },
-                billOfEntryDate : { customDate : true },
+                billOfEntryDate : { customDate : true, required : true },
                 dateOfArrival : { customDate : true },
                 dateOfCommissioning : { customDate : true },
                 invoiceNumber : { required : true },
                 "foreignValue.amount" : { number : true },
-                amountSTPIApproval : { number : true },
+                amountSTPIApproval : { number : true, required : true },
                 assessableValueInINR : { required: true, number : true },
                 CIFValueInINR : { number : true },
                 cgApprovedInINR : { number : true },
@@ -48,7 +48,8 @@ kabbadi.invoice.edit = {
                 openingPurchaseValueAsOnApril01 : { number : true },
                 additionsDuringTheYear : { number : true },
                 deletionsDuringTheYear : { number : true },
-                percentageValue : { required : true, number: true }
+                percentageValue : { required : true, number: true },
+                billOfEntryNumber : { required : true }
             },
 
             invalidHandler : function() {
