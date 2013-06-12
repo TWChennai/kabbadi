@@ -49,15 +49,17 @@ public class SortableInvoiceList {
                 catch (Exception e) {
                     return -1;
                 }
-                try {
+
+                if(matcher1.find() && matcher2.find()){
                 if (Integer.parseInt(matcher1.group(2)) < Integer.parseInt(matcher2.group(2))) return -1;
                 if (Integer.parseInt(matcher1.group(2)) > Integer.parseInt(matcher2.group(2))) return 1;
 
                 if (Integer.parseInt(matcher1.group(1)) < Integer.parseInt(matcher2.group(1))) return -1;
-                if (Integer.parseInt(matcher1.group(1)) > Integer.parseInt(matcher2.group(1))) return 1;}
-                catch (Exception e) {}
+                if (Integer.parseInt(matcher1.group(1)) > Integer.parseInt(matcher2.group(1))) return 1;
+                }
                 return 0;
                 //return ObjectUtils.compare(invoice1.getBondNumber(), invoice.getBondNumber());
+
             }
         });
         return invoices;
