@@ -101,29 +101,6 @@ kabbadi.invoice.edit = {
 
         },
 
-    fetchPreviousRunningBalance : function() {
-        var current_bond_number = $("input[name='bondNumber']").val();
-        if(current_bond_number.match(/\d+\/\d{2}-\d{2}/)) {
-            var location = $("#location").val();
-            $.getJSON("previousRunningBalance",
-            {
-                bondNumber : current_bond_number,
-                location   : location
-            },
-            function(previousInvoice) {
-                if(previousInvoice.bondNumber) {
-                     $("#previous_bond_number").html(previousInvoice.bondNumber);
-                     $("#previous_bond_value").html(+previousInvoice.runningBalance);
-                     kabbadi.invoice.edit.calculateCurrentRunningBalance();
-                     $("#previous_matched_bond_number").show();
-                }
-                else {
-                    kabbadi.invoice.edit.removePreviousInvoice();
-                }
-            });
-        }
-    },
-
     fillOthers: function(evt) {
         if ($('#newInvoiceForm').validate().element(this)) {
             var assessableValueInINR = $('#assessableValueInINR').val() == "" ? 0 : $('#assessableValueInINR').val();
@@ -132,20 +109,6 @@ kabbadi.invoice.edit = {
             $('#dutyExempt').val(dutyExempt);
             $('#twentyFivePercentDF').val(dutyExempt * 0.25);
         }
-    },
-
-    removePreviousInvoice : function() {
-        $("#previous_matched_bond_number").hide();
-        $("#previous_bond_value").text(0);
-        kabbadi.invoice.edit.calculateCurrentRunningBalance();
-    },
-
-    calculateCurrentRunningBalance : function() {
-        var prevRunningBalance = +$("#previous_bond_value").text();
-        var CIFValueInINR = +$("input[name='CIFValueInINR']").val();
-        var cgApprovedInINR = +$("input[name='cgApprovedInINR']").val();
-
-        $("#runningBalance").val(prevRunningBalance + CIFValueInINR - cgApprovedInINR);
     },
 
     wireUpEvents : function() {
@@ -166,10 +129,6 @@ kabbadi.invoice.edit = {
                 dateFormat: 'dd/mm/yy'
             });
             $(".defaultDatepicker").datepicker( );
-            $("#remove_previous_bond_number").click(kabbadi.invoice.edit.removePreviousInvoice);
-            $("input[name='bondNumber']").blur(kabbadi.invoice.edit.fetchPreviousRunningBalance);
-            $("#location").change(kabbadi.invoice.edit.fetchPreviousRunningBalance);
-            $("input[name='amountSTPIApproval'],input[name='cgApprovedInINR']").blur(kabbadi.invoice.edit.calculateCurrentRunningBalance);
         });
 
     }
